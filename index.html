@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>ZIP Code Correction</title>
+    <style>
+      .container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      input[type="file"] {
+        margin-top: 20px;
+      }
+
+      button {
+        margin-top: 20px;
+        padding: 10px 20px;
+        background-color: lightblue;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+ 
+      select {
+        margin-top: 20px;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      table {
+        margin-top: 20px;
+        border-collapse: collapse;
+        width: 100%;
+      }
+
+      th, td {
+        border: 1px solid black;
+        padding: 8px;
+        text-align: left;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>ZIP Code Correction</h1>
+      <input type="file" id="fileInput" accept=".csv">
+      <select id="columnSelect">
+      </select>
+      <button id="correctButton">Correct ZIP Codes</button>
+      <table id="csv-table">
+        <thead>
+          <tr>
+            <th>Your Original ZIP codes</th>
+            <th>Corrected ZIP Codes</th>
+          </tr>
+        </thead>
+        <tbody id="csv-data">
+        </tbody>
+      </table>
+    </div>
+    <script>
+    let rows;
+
+    const fileInput = document.querySelector("#fileInput");
+        const columnSelect = document.querySelector("#columnSelect");
+        const correctButton = document.querySelector("#correctButton");
+        const csvData = document.querySelector("#csv-data");
+
+        function handleFileSelect(event) {
+          const file = event.target.files[0];
+          const reader = new FileReader();
+          reader.readAsText(file);
+          reader.onload = function (event) {
+            const csv = event.target.result;
+            rows = csv.split("\n");
+            const headers = rows[0].split(",");
+
+            // Populate the column select dropdown with the column names
+            for (let i = 0; i < headers.length; i++) {
+              const option = document.createElement("option");
+              option.value = i;
+              option.text = headers[i];
+              columnSelect.appendChild(option);
+            }
+          };
+        }
+
+        function handleCorrectButtonClick(event) {
+          const selectedColumnIndex = columnSelect.value;
+          const headers = rows[0].split(",");
+          csvData.innerHTML = "";
+          for (let i = 1; i < rows.length; i++) {
+            const cells = rows[i].split(",");
+      if (cells.length >= headers.length) {
+      const zip = cells[selectedColumnIndex].trim();
+      const correctedZip = zip.padStart(5, "0");
+
+      const tr = document.createElement("tr");
+        const originalZipTd = document.createElement("td");
+        originalZipTd.textContent = zip;
+        tr.appendChild(originalZipTd);
+        const correctedZipTd = document.createElement("td");
+        correctedZipTd.textContent = correctedZip;
+        tr.appendChild(correctedZipTd);
+        csvData.appendChild(tr);
+      }
+    }
+  }
+
+    fileInput.addEventListener("change", handleFileSelect);
+    correctButton.addEventListener("click", handleCorrectButtonClick);
+  </script>
+  </body>
+</html>
