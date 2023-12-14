@@ -2,8 +2,8 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>ZIP Code Correction</title>
-    <h4> Accepts CSV only </h4>
+    <title>WRF BMP Decision Tool for Wet Weather Management </title>
+    <h4> Input data as CSV file </h4>
     <style>
       .container {
         display: flex;
@@ -48,16 +48,16 @@
   </head>
   <body>
     <div class="container">
-      <h1>ZIP Code Correction</h1>
+      <h1>Triple Bottom Line Calculator</h1>
       <input type="file" id="fileInput" accept=".csv">
       <select id="columnSelect">
       </select>
-      <button id="correctButton">Correct ZIP Codes</button>
+      <button id="correctButton">Run GIS-MCDA Model</button>
       <table id="csv-table">
         <thead>
           <tr>
-            <th>Your Original ZIP codes</th>
-            <th>Corrected ZIP Codes</th>
+            <th>Your layers</th>
+            <th>BMP Map</th>
           </tr>
         </thead>
         <tbody id="csv-data">
