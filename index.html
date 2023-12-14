@@ -3,25 +3,49 @@
 <head>
   <meta charset="utf-8">
   <title>WRF BMP Decision Tool for Wet Weather Management</title>
-  <h4>Input data as CSV file</h4>
   <style>
-    .container {
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
       display: flex;
-      flex-direction: column;
+      justify-content: center;
       align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .container {
+      border-radius: 10px;
+      background-color: #fff;
+      padding: 20px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 24px;
+      margin-bottom: 20px;
     }
 
     input[type="file"] {
-      margin-top: 20px;
+      margin-bottom: 20px;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
     }
 
     button {
-      margin-top: 20px;
       padding: 10px 20px;
-      background-color: lightblue;
+      background-color: #4CAF50;
       border: none;
       border-radius: 5px;
       cursor: pointer;
+      color: #fff;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #45a049;
     }
 
     table {
@@ -31,7 +55,7 @@
     }
 
     th, td {
-      border: 1px solid black;
+      border: 1px solid #ddd;
       padding: 8px;
       text-align: left;
     }
@@ -40,7 +64,8 @@
 <body>
   <div class="container">
     <h1>Triple Bottom Line Calculator</h1>
-    <input type="file" id="fileInput" accept=".csv">
+    <input type="file" id="fileInput" accept=".csv" placeholder="Upload CSV file">
+    <br>
     <button id="correctButton">Run GIS-MCDA Model</button>
     <table id="csv-table">
       <thead>
