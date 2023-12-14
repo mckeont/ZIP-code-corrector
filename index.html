@@ -23,8 +23,8 @@
       </thead>
       <tbody id="csv-data"></tbody>
     </table>
-    <!-- Add a div for the map -->
-    <div id="map" style="width: 800px; height: 600px;"></div>
+    <!-- Add a div for displaying images -->
+    <div id="imageDisplay"></div>
   </div>
 
   <!-- Include Leaflet library -->
@@ -38,6 +38,7 @@
     const columnSelect = document.querySelector("#columnSelect");
     const correctButton = document.querySelector("#correctButton");
     const csvData = document.querySelector("#csv-data");
+    const imageDisplay = document.querySelector("#imageDisplay");
 
     function handleFileSelect(event) {
       // Remaining code remains unchanged
@@ -46,29 +47,30 @@
     function handleCorrectButtonClick(event) {
       // Remaining code remains unchanged
 
-      // Call a function to display Leaflet map with ZIP codes
-      displayLeafletMap();
+      // Call a function to display a series of images
+      displayImageSeries();
     }
 
-    // Function to display Leaflet map
-    function displayLeafletMap() {
-      // Initialize map
-      map = L.map('map').setView([40, -100], 4); // Set default coordinates and zoom
+    // Function to display a series of images
+    function displayImageSeries() {
+      // Clear previous images
+      imageDisplay.innerHTML = "";
 
-      // Add a base map (you can choose a different tile layer)
-      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '© OpenStreetMap contributors'
-      }).addTo(map);
+      // Create an array of image URLs (replace with your image URLs)
+      const imageUrls = [
+        "image1.jpg",
+        "image2.jpg",
+        "image3.jpg"
+        // Add more image URLs as needed
+      ];
 
-      // For demonstration purposes, add a marker at a specific ZIP code location
-      const marker = L.marker([40.7128, -74.0060]).addTo(map); // Replace coordinates with your data
-
-      // You'll need to replace this with your ZIP code data to display on the map
-      // Loop through your CSV data and create markers or shapes for each ZIP code
-      // For example:
-      // YourCSVData.forEach(zipCode => {
-      //   // Use zipCode data to create markers or shapes on the map
-      // });
+      // Loop through the image URLs and display them
+      imageUrls.forEach(url => {
+        const img = document.createElement("img");
+        img.src = url;
+        img.style.width = "300px"; // Adjust image size if needed
+        imageDisplay.appendChild(img);
+      });
     }
 
     fileInput.addEventListener("change", handleFileSelect);
