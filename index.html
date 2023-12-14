@@ -5,52 +5,42 @@
   <title>WRF BMP Decision Tool for Wet Weather Management</title>
   <h4>Input data as CSV file</h4>
   <style>
-      .container {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-      }
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
 
-      input[type="file"] {
-        margin-top: 20px;
-      }
+    input[type="file"] {
+      margin-top: 20px;
+    }
 
-      button {
-        margin-top: 20px;
-        padding: 10px 20px;
-        background-color: lightblue;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-      }
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background-color: lightblue;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
 
- 
-      select {
-        margin-top: 20px;
-        padding: 10px 20px;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-      }
+    table {
+      margin-top: 20px;
+      border-collapse: collapse;
+      width: 100%;
+    }
 
-      table {
-        margin-top: 20px;
-        border-collapse: collapse;
-        width: 100%;
-      }
-
-      th, td {
-        border: 1px solid black;
-        padding: 8px;
-        text-align: left;
-      }
-    </style>
+    th, td {
+      border: 1px solid black;
+      padding: 8px;
+      text-align: left;
+    }
+  </style>
 </head>
 <body>
   <div class="container">
     <h1>Triple Bottom Line Calculator</h1>
     <input type="file" id="fileInput" accept=".csv">
-    <select id="columnSelect"></select>
     <button id="correctButton">Run GIS-MCDA Model</button>
     <table id="csv-table">
       <thead>
@@ -73,7 +63,6 @@
     let map; // Leaflet map instance
 
     const fileInput = document.querySelector("#fileInput");
-    const columnSelect = document.querySelector("#columnSelect");
     const correctButton = document.querySelector("#correctButton");
     const csvData = document.querySelector("#csv-data");
     const imageDisplay = document.querySelector("#imageDisplay");
