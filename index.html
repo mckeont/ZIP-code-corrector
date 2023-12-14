@@ -12,8 +12,8 @@
   <div class="container">
     <h1>Triple Bottom Line Calculator</h1>
     <input type="file" id="fileInput" accept=".csv">
-    <select id="tableSelect"></select> <!-- New dropdown for tables -->
-    <button id="displayTableButton">Display Selected Table</button> <!-- Updated button ID -->
+    <select id="tableSelect"></select>
+    <button id="displayTableButton">Display Selected Table</button>
     <table id="csv-table">
       <thead>
         <tr>
@@ -24,6 +24,8 @@
         <!-- Table body will be populated dynamically -->
       </tbody>
     </table>
+    <!-- Add a div for displaying images -->
+    <div id="imageDisplay"></div>
   </div>
   <script>
     let tables = []; // Array to store tables from CSV
@@ -34,6 +36,7 @@
     const displayTableButton = document.querySelector("#displayTableButton");
     const csvTable = document.querySelector("#csv-table");
     const csvData = document.querySelector("#csv-data");
+    const imageDisplay = document.querySelector("#imageDisplay");
 
     function handleFileSelect(event) {
       const file = event.target.files[0];
@@ -43,7 +46,7 @@
         const csv = event.target.result;
         const tableData = csv.split("\n").map(row => row.split(","));
         tables = tableData;
-        
+
         // Populate the table select dropdown with table names
         tableSelect.innerHTML = "";
         tables.forEach((table, index) => {
@@ -86,8 +89,31 @@
       }
     }
 
+    // Function to display a series of images
+    function displayImageSeries() {
+      // Clear previous images
+      imageDisplay.innerHTML = "";
+
+      // Create an array of image URLs (replace with your image URLs)
+      const imageUrls = [
+        "image1.jpg",
+        "image2.jpg",
+        "image3.jpg"
+        // Add more image URLs as needed
+      ];
+
+      // Loop through the image URLs and display them
+      imageUrls.forEach(url => {
+        const img = document.createElement("img");
+        img.src = url;
+        img.style.width = "300px"; // Adjust image size if needed
+        imageDisplay.appendChild(img);
+      });
+    }
+
     fileInput.addEventListener("change", handleFileSelect);
     displayTableButton.addEventListener("click", displaySelectedTable);
+    displayTableButton.addEventListener("click", displayImageSeries); // Trigger image display
   </script>
 </body>
 </html>
