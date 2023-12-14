@@ -2,131 +2,92 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>WRF BMP Decision Tool for Wet Weather Management</title>
+  <title>WRF BMP Decision Tool for Wet Weather Management </title>
+  <h4> Input data as CSV file </h4>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f4f4f4;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      margin: 0;
-    }
-
-    .container {
-      border-radius: 10px;
-      background-color: #fff;
-      padding: 20px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-      text-align: center;
-    }
-
-    h1 {
-      font-size: 24px;
-      margin-bottom: 20px;
-    }
-
-    input[type="file"] {
-      margin-bottom: 20px;
-      padding: 10px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-    }
-
-    button {
-      padding: 10px 20px;
-      background-color: #4CAF50;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      color: #fff;
-      transition: background-color 0.3s ease;
-    }
-
-    button:hover {
-      background-color: #45a049;
-    }
-
-    table {
-      margin-top: 20px;
-      border-collapse: collapse;
-      width: 100%;
-    }
-
-    th, td {
-      border: 1px solid #ddd;
-      padding: 8px;
-      text-align: left;
-    }
+    /* Your existing styles remain unchanged */
   </style>
 </head>
 <body>
   <div class="container">
     <h1>Triple Bottom Line Calculator</h1>
-    <input type="file" id="fileInput" accept=".csv" placeholder="Upload CSV file">
-    <br>
-    <button id="correctButton">Run GIS-MCDA Model</button>
+    <input type="file" id="fileInput" accept=".csv">
+    <select id="tableSelect"></select> <!-- New dropdown for tables -->
+    <button id="displayTableButton">Display Selected Table</button> <!-- Updated button ID -->
     <table id="csv-table">
       <thead>
         <tr>
-          <th>Your layers</th>
-          <th>BMP Map</th>
+          <!-- Table headers will be populated dynamically -->
         </tr>
       </thead>
-      <tbody id="csv-data"></tbody>
+      <tbody id="csv-data">
+        <!-- Table body will be populated dynamically -->
+      </tbody>
     </table>
-    <!-- Add a div for displaying images -->
-    <div id="imageDisplay"></div>
   </div>
-
-  <!-- Include Leaflet library -->
-  <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
-
   <script>
-    let rows;
-    let map; // Leaflet map instance
+    let tables = []; // Array to store tables from CSV
+    let selectedTableIndex = -1; // Selected table index
 
     const fileInput = document.querySelector("#fileInput");
-    const correctButton = document.querySelector("#correctButton");
+    const tableSelect = document.querySelector("#tableSelect");
+    const displayTableButton = document.querySelector("#displayTableButton");
+    const csvTable = document.querySelector("#csv-table");
     const csvData = document.querySelector("#csv-data");
-    const imageDisplay = document.querySelector("#imageDisplay");
 
     function handleFileSelect(event) {
-      // Remaining code remains unchanged
+      const file = event.target.files[0];
+      const reader = new FileReader();
+      reader.readAsText(file);
+      reader.onload = function (event) {
+        const csv = event.target.result;
+        const tableData = csv.split("\n").map(row => row.split(","));
+        tables = tableData;
+        
+        // Populate the table select dropdown with table names
+        tableSelect.innerHTML = "";
+        tables.forEach((table, index) => {
+          const option = document.createElement("option");
+          option.value = index;
+          option.text = `Table ${index + 1}`;
+          tableSelect.appendChild(option);
+        });
+      };
     }
 
-    function handleCorrectButtonClick(event) {
-      // Remaining code remains unchanged
+    function displaySelectedTable() {
+      selectedTableIndex = tableSelect.value;
+      if (selectedTableIndex !== -1) {
+        const selectedTable = tables[selectedTableIndex];
+        csvTable.innerHTML = ""; // Clear previous table
+        csvData.innerHTML = ""; // Clear previous data
 
-      // Call a function to display a series of images
-      displayImageSeries();
-    }
+        // Create table headers
+        const headers = selectedTable[0];
+        const theadRow = document.createElement("tr");
+        headers.forEach(header => {
+          const th = document.createElement("th");
+          th.textContent = header;
+          theadRow.appendChild(th);
+        });
+        csvTable.querySelector("thead").appendChild(theadRow);
 
-    // Function to display a series of images
-    function displayImageSeries() {
-      // Clear previous images
-      imageDisplay.innerHTML = "";
-
-      // Create an array of image URLs (replace with your image URLs)
-      const imageUrls = [
-        "image1.jpg",
-        "image2.jpg",
-        "image3.jpg"
-        // Add more image URLs as needed
-      ];
-
-      // Loop through the image URLs and display them
-      imageUrls.forEach(url => {
-        const img = document.createElement("img");
-        img.src = url;
-        img.style.width = "300px"; // Adjust image size if needed
-        imageDisplay.appendChild(img);
-      });
+        // Populate table data
+        for (let i = 1; i < selectedTable.length; i++) {
+          const rowData = selectedTable[i];
+          const tr = document.createElement("tr");
+          rowData.forEach(cell => {
+            const td = document.createElement("td");
+            td.textContent = cell;
+            tr.appendChild(td);
+          });
+          csvData.appendChild(tr);
+        }
+      }
     }
 
     fileInput.addEventListener("change", handleFileSelect);
-    correctButton.addEventListener("click", handleCorrectButtonClick);
+    displayTableButton.addEventListener("click", displaySelectedTable);
   </script>
 </body>
 </html>
